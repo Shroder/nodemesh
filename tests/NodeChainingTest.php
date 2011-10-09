@@ -4,7 +4,7 @@
  *
  * @author josterholt
  */
-class NodeChainingTest extends PHPUnit_Extensions_Database_TestCase {
+class NodeChainingTest extends Generic_DatabaseTestCase {
     public function getDataSet()
     {
         return $this->createFlatXMLDataSet(dirname(__FILE__).'/_files/test_constraints.xml');

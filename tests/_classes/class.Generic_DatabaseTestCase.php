@@ -1,5 +1,5 @@
 <?
-abstract class Generic_DatabaseTestCase extends PHPUnit_Framework_TestCase
+abstract class Generic_DatabaseTestCase extends PHPUnit_Extensions_Database_TestCase
 {
     static private $pdo = null;
     private $conn = null;
