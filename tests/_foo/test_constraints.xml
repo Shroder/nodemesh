@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataset>
-    <properties pk="1" description="Test" price="100000" />
-    <properties pk="2" description="Test 2" price="100000" />
-    <properties pk="3" description="Test 2" price="100000" />
-    <properties pk="4" description="Test 2" price="100000" />
-    <properties pk="5" description="Test 2" price="100000" />
-    <properties pk="6" description="Test 2" price="100000" />
-</dataset>
