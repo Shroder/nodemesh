@@ -1,9 +1,12 @@
 <?php
-set_include_path(get_include_path().PATH_SEPARATOR.'../classes:../includes');
+ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__)."/_classes".PATH_SEPARATOR.dirname(__FILE__).'/../../../../../../Program Files (x86)/PHP/PEAR'.PATH_SEPARATOR.dirname(__FILE__).'/../classes'.PATH_SEPARATOR.dirname(__FILE__).'/../includes');
+echo get_include_path()."\n";
+
 include_once 'interface.DatabaseAdapterInterface.php';
 
 function autoloader($class)
 {
+    echo "{$class}.php\n";
     if (file_exists("{$class}.php"))
     {
         require "{$class}.php";
@@ -12,5 +15,5 @@ function autoloader($class)
 }
 spl_autoload_register("autoloader");
 
-Environment::SetEnvironment('setup');
+Environment::SetEnvironment('main');
 ?>
