@@ -1,0 +1,89 @@
+## YAML Template.
+---
+properties:
+  -
+    pk: "1"
+    description: "Test 1"
+    price: "100000"
+  -
+    pk: "2"
+    description: "Test 2"
+    price: "100000"
+  -
+    pk: "3"
+    description: "Test 3"
+    price: "100000"
+  -
+    pk: "4"
+    description: "Test 4"
+    price: "100000"
+  -
+    pk: "5"
+    description: "Test 5"
+    price: "100000"
+  -
+    pk: "6"
+    description: "Test 6"
+    price: "100000"
+tags:
+  -
+    pk: "1"
+    title: "West Sacramento"
+    feed_code: "PRIVATE"
+    code: "PRIVATE_WEST_SACRAMENTO"
+    subtype: "AREA"
+  -
+    pk: "2"
+    title: "El Dorado"
+    feed_code: "PRIVATE"
+    code: "PRIVATE_EL_DORADO"
+    subtype: "AREA"
+  -
+    pk: "3"
+    title: "Single Family"
+    feed_code: "PRIVATE"
+    code: "PRIVATE_SINGLE_FAMILY"
+    subtype: "PROPERTY_TYPE"
+  -
+    pk: "4"
+    title: "Multi Family"
+    feed_code: "PRIVATE"
+    code: "PRIVATE_MULTI_FAMILY"
+    subtype: "PROPERTY_TYPE"
+properties#tags:
+  -
+    pk1: "1"
+    pk2: "1"
+  -
+    pk1: "2"
+    pk2: "1"
+  -
+    pk1: "3" 
+    pk2: "1" 
+  -
+    pk1: "4"
+    pk2: "2" 
+  -
+    pk1: "5"
+    pk2: "2" 
+  -
+    pk1: "6"
+    pk2: "2" 
+  -
+    pk1: "1"
+    pk2: "3" 
+  -
+    pk1: "2"
+    pk2: "3" 
+  -
+    pk1: "3"
+    pk2: "3" 
+  -
+    pk1: "4"
+    pk2: "4" 
+  -
+    pk1: "5"
+    pk2: "4" 
+  -
+    pk1: "6"
+    pk2: "4" 

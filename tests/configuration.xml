@@ -2,8 +2,8 @@
 <phpunit>
     <php>
         <var name="DB_DSN" value="mysql:dbname=properties;host=localhost" />
-        <var name="DB_USER" value="user" />
-        <var name="DB_PASSWD" value="password" />
+        <var name="DB_USER" value="mesh" />
+        <var name="DB_PASSWD" value="temp" />
         <var name="DB_DBNAME" value="properties" />
     </php>
 </phpunit>
