@@ -30,7 +30,7 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
     function testGetNodeFromCluster()
     {
         $nodes = new Cluster("properties");
-        $this->assertObjectHasAttribute("pk", $nodes->Me[0]);
+        $this->assertNotEmpty($nodes->Me[0]->pk);
     }
     
     // Multiple lines of chaining
@@ -39,7 +39,7 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
         $node = new Node("properties", 1);
         $tags = $node->tags();
         $this->assertType("Cluster", $tags);
-        $this->assertEquals(1, count($tags));
+        $this->assertEquals(2, count($tags));
     }
 
     // Multiple lines of chaining
@@ -55,7 +55,7 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
         $node = new Cluster("properties");
         $tags = $node->tags();
         $this->assertType("Cluster", $tags);
-        $this->assertEquals(2, count($tags));
+        $this->assertEquals(4, count($tags));
     }
 
     public function testCanChainFromCluster2() {
@@ -74,17 +74,15 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
     // Use alias on single node
     function testAlias()
     {
-        $foo = (object) array("test" => "test");
-        $this->assertObjectHasAttribute("test", $foo);
         $node = new Node("properties", 1, "select: description>>foo");
-        $this->assertObjectHasAttribute("foo", $node);
+        $this->assertNotEmpty($node->foo);
     }
     
     // Use alias on cluster of nodes
     function testAlias2()
     {
         $cluster = new Cluster("properties", "select: description>>foo");
-        $this->assertObjectHasAttribute("foo", $cluster->Me[0]);
+        $this->assertNotEmpty($cluster->Me[0]->foo);
     }
     
     // Use jump
@@ -103,6 +101,7 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
         
         $node = new Node("properties", "eq:description:Test Insert", "eq:price:100");
         //$this->assertAttributeNotEmpty("pk", $node);
+        $this->assertNotEmpty($node->pk);
     }
     
     // Insert multiple nodes
