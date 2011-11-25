@@ -23,9 +23,10 @@ class CallChain
     public $_calls = array();
     private $_branchIndex = array();
     private $_activeChain = null;
+    private $_activeCall = null;
 
     public function __construct() {
-        $this->_activeChain = &$this;
+        $this->_activeCall = &$this;
     }
   
     /**
@@ -44,43 +45,57 @@ class CallChain
             $call        = new Call();
             $call->table = $table;
         }
-        
+        if ($this->_activeCall instanceof Call)
+        {
+            $call->_parent = &$this->_activeCall;
+        }
+
         foreach ($plugins as $plugin)
         {
             $call->apply($plugin);
             if (stripos($plugin, "set") !== false)
             {
                 list($foo, $index) = explode(":", $plugin);
-                $this->_branchIndex[$index] = &$call->_callChain;
+                $this->_callIndex[$index] = &$call;
             }
         }
 
         if (!empty($call->jump))
         {
             $index = $call->jump;
-            if (empty($this->_branchIndex[$index]))
+            if (empty($this->_callIndex[$index]))
             {
                 throw new Exception("Node {$index} does not exist");
             }
-            $this->setActiveChain(&$this->_branchIndex[$index]);
+            $this->setActiveCall(&$this->_callIndex[$index]);
             return;
         }
 
-        $this->_activeChain->_calls[] = $call;
+        //$call->_parent = &current($this->_activeChain);
+        $this->_activeCall->_calls[] = $call;
 
-        $this->setActiveChain(&$call->_callChain);
+        $this->setActiveCall(&$call);
         return;
     }
-
-    private function setActiveChain(CallChain $chain)
+  
+    private function setActiveCall(Call $call)
     {
-        if (!($chain instanceof CallChain))
-        {
-            throw new Exception("Invalid active CallChain set");
-        }
-        $this->_activeChain = &$chain;
+        $this->_activeCall = &$call;
     }
-    
+
+    public function orderByOwnership()
+    {
+        $call = &$this->_activeCall;
+
+        if ($call->_parent != null)
+        {
+            $call->_parent->changeChainDirection(&$call);
+            //$call->_calls[] = &$call->_parent;
+            $call->_parent = null;
+        }
+        $this->_calls = array(&$call);
+    }
+
     public function peek()
     {
         $count = count($this->_calls);

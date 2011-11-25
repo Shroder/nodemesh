@@ -53,14 +53,14 @@ class Call
     
     public $optional = false;
 
-    public $_callChain;
+    public $_parent = null;
+    public $_calls = array();
     
     
     public function __construct()
     {
         // Set the default context if available
         $this->context = MeshTools::GetContext();
-        $this->_callChain = new CallChain();
     }
     
     
@@ -453,5 +453,33 @@ class Call
     private function _escapeString(&$value)
     {
         $value = mysql_escape_string($value);
+    }
+
+    public function changeChainDirection(Call $call)
+    {
+        /*
+        echo "Init\n";
+        print_r($call);
+         */
+        if ($this->_parent != null)
+        {
+            $this->_parent->changeChainDirection(&$this);
+        }
+        $this->_parent = &$call;
+
+        for ($i=0; $i < count($this->_calls); $i++)
+        {
+            $val = $this->_calls[$i];
+            if (spl_object_hash($val) == spl_object_hash($call))
+            {
+                array_splice($this->_calls, $i, 1);
+            }
+        }
+
+        $call->_calls[] = &$this;
+        /*
+        echo "After...\n";
+        print_r($call);
+         */
     }
 }

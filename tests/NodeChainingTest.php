@@ -6,6 +6,12 @@
  */
 require_once "PHPUnit/Extensions/Database/DataSet/YamlDataSet.php";
 class NodeChainingTest extends Generic_DatabaseTestCase {
+    public function setUp()
+    {
+        $sqlDebugger = SQLDebugger::getInstance();
+        $sqlDebugger->enable();
+        parent::setUp();
+    }
     public function getDataSet()
     {
         return new PHPUnit_Extensions_Database_Dataset_YamlDataSet(dirname(__FILE__).'/_files/test_constraints.yml');
@@ -59,8 +65,10 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
     }
 
     public function testCanChainFromCluster2() {
-        $node = new Cluster("properties");
+        echo "---begin test---\n";
+        $node = new Cluster("properties", "select:price>>properties_price");
         $tags = $node->tags("eq:subtype:AREA");
+        print_r($tags);
         $this->assertType("Cluster", $tags);
         $this->assertEquals(2, count($tags));
     }
@@ -108,6 +116,12 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
     function testInsertNodes()
     {
         
+    }
+
+    function testDisplayDebugInfo()
+    {
+        $sqlDebugger = SQLDebugger::getInstance();
+        //print_r($sqlDebugger->getQueries());
     }
 }
 
