@@ -46,18 +46,21 @@ class Call
     public $flag;
     
     public $jump;
-    
+
     public $not_linked = false;
     
     public $wrap = false;       // @todo Evaluate whether this is really needed
     
     public $optional = false;
+
+    public $_callChain;
     
     
     public function __construct()
     {
         // Set the default context if available
         $this->context = MeshTools::GetContext();
+        $this->_callChain = new CallChain();
     }
     
     

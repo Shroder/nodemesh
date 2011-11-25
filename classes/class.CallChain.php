@@ -21,29 +21,13 @@
 class CallChain
 {
     public $_calls = array();
-    
-    
-    /*
-    public function __construct(array $calls = array())
-    {
-        foreach ($calls as $call)
-        {
-            if ($call instanceof Call)
-            {
-                $this->_calls[] = $call;
-            }
-            else
-            {
-                $type = is_object($call) ? get_class($call) : gettype($call);
-                throw new Exception('Cannot construct CallChain with ' . $type);
-            }
-        }
-        
-        return;
-    }
-    */
+    private $_branchIndex = array();
+    private $_activeChain = null;
 
-    
+    public function __construct() {
+        $this->_activeChain = &$this;
+    }
+  
     /**
      * Add a Call object to the CallChain
      * 
@@ -64,13 +48,38 @@ class CallChain
         foreach ($plugins as $plugin)
         {
             $call->apply($plugin);
+            if (stripos($plugin, "set") !== false)
+            {
+                list($foo, $index) = explode(":", $plugin);
+                $this->_branchIndex[$index] = &$call->_callChain;
+            }
         }
 
-        $this->_calls[] = $call;
+        if (!empty($call->jump))
+        {
+            $index = $call->jump;
+            if (empty($this->_branchIndex[$index]))
+            {
+                throw new Exception("Node {$index} does not exist");
+            }
+            $this->setActiveChain(&$this->_branchIndex[$index]);
+            return;
+        }
 
+        $this->_activeChain->_calls[] = $call;
+
+        $this->setActiveChain(&$call->_callChain);
         return;
     }
-    
+
+    private function setActiveChain(CallChain $chain)
+    {
+        if (!($chain instanceof CallChain))
+        {
+            throw new Exception("Invalid active CallChain set");
+        }
+        $this->_activeChain = &$chain;
+    }
     
     public function peek()
     {
@@ -96,18 +105,9 @@ class CallChain
     public function __clone()
     {
         foreach ($this->_calls as $i => $call)
-        {
-//            static $x;
-//            
-//            echo '<hr/><h3>';
-//            echo ++$x;
-//            echo '</h3><pre>';
-//            print_r($call);
-//            echo '</pre>';
-            
+        {           
             $this->_calls[$i] = clone $call;
-        }
-        
+        } 
         return;
     }
 }
