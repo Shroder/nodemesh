@@ -51,7 +51,17 @@ class DatabaseConnection //implements DatabaseAdapterInterface
 
     public function __call($method, $params)
     {
-        return call_user_func_array(array($this->_dba, $method), $params);
+        if ($method == "query")
+        {
+            $sqlDebugger = SqlDebugger::getInstance();
+            $sqlDebugger->start($params[0]);
+        }
+        $output = call_user_func_array(array($this->_dba, $method), $params);
+        if ($method == "query")
+        {
+            $sqlDebugger->stop();
+        }
+        return $output;
     }
 
     public function escape($value)
