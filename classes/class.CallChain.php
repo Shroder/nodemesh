@@ -72,7 +72,7 @@ class CallChain
         }
 
         //$call->_parent = &current($this->_activeChain);
-        $this->_activeCall->_calls[] = $call;
+        $this->_activeCall->_calls[] = &$call;
 
         $this->setActiveCall(&$call);
         return;
@@ -125,4 +125,26 @@ class CallChain
         } 
         return;
     }
+
+    public function extract_calls(&$item, $key, &$collection)
+    {
+        if ($item instanceof Call)
+        {
+            $collection[$item->table] = array();
+            if (!empty($item->_calls))
+            {
+                array_walk_recursive($item->_calls, array($this, 'extract_calls'), &$collection[$item->table]);
+            }
+        }
+    }
+
+    public function _condensed()
+    {
+        array_walk_recursive($this->_calls, array($this, 'extract_calls'), &$collection);
+        print_r($collection);
+    }
+
+
+    // test duplicates
+    //test aliases in sql
 }

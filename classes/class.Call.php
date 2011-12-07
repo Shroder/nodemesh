@@ -163,13 +163,18 @@ class Call
         // Check for modifiers and remove them in succession
 
         // Check for andor modifier
-        if ('or' == $filter[0])// || 'and' == $filter[0])
+        if ('or' == $filter[0])
         {
-            $andor = ' ' . strtoupper(array_shift($filter)) . ' ';
+            $andor = ' ' . strtoupper($filter[0]) . ' ';
         }
         else
         {
             $andor = ' AND ';
+        }
+
+        if ('or' == $filter[0] || 'and' == $filter[0])
+        {
+            array_shift($filter);
         }
         
         /*

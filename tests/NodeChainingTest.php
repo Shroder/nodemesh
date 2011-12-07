@@ -60,15 +60,16 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
     public function testCanChainFromCluster1() {
         $node = new Cluster("properties");
         $tags = $node->tags();
+        DebugUtils::getChain($node);
+        DebugUtils::getChain($tags);
+        print_r($tags->toArray());
         $this->assertType("Cluster", $tags);
         $this->assertEquals(4, count($tags));
     }
 
     public function testCanChainFromCluster2() {
-        echo "---begin test---\n";
         $node = new Cluster("properties", "select:price>>properties_price");
         $tags = $node->tags("eq:subtype:AREA");
-        print_r($tags);
         $this->assertType("Cluster", $tags);
         $this->assertEquals(2, count($tags));
     }
@@ -84,6 +85,26 @@ class NodeChainingTest extends Generic_DatabaseTestCase {
     {
         $node = new Node("properties", 1, "select: description>>foo");
         $this->assertNotEmpty($node->foo);
+    }
+
+    public function testCanOrder() {
+        $cluster = new Cluster("properties", "order:address:ASC");
+        print_r($cluster->toArray());
+        $cluster = new Cluster("properties", "order:address:DESC");
+        print_r($cluster->toArray());
+    }
+
+    function testCanLimitResult()
+    {
+        $cluster = new Cluster("properties", "top:1");
+        $this->assertEquals(1, count($cluster));
+    }
+
+    function testCanSetStartPosition()
+    {
+        $cluster = new Cluster("properties", "start:2");
+        print_r($cluster->toArray());
+        $this->assertEquals("2", $cluster->Me[0]->pk);
     }
     
     // Use alias on cluster of nodes

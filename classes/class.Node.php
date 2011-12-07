@@ -36,7 +36,7 @@ class Node extends NodeCore
 
     protected function _fetch()
     {
-        $query  = new Query($this->_callChain);
+        $query  = new SQLBuilder($this->_callChain);
         //    echo '<p>';
         //     print_r($query);
         try
@@ -64,7 +64,7 @@ class Node extends NodeCore
 
         if (empty($data))
         {
-            $query = new Query($this->_callChain);
+            $query = new SQLBuilder($this->_callChain);
             try
             {
                 $data = $query->execute();

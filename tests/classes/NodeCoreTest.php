@@ -151,7 +151,20 @@ class NodeCoreTest extends Generic_DatabaseTestCase {
         $this->assertInstanceOf('Cluster', $stub->jump('test'));
         $this->assertEmpty($stub->pk);
     }
-    
+
+    public function testCanFetchCondensedChain() {
+        $stub = $this->getMockForAbstractClass("NodeCore", array("properties"));
+        $chain = DebugUtils::getChain($stub);
+        $this->assertNotEmpty($chain);
+        $this->assertArrayHasKey('properties', $chain);
+    }
+
+public function testCanFetchCondensedChain2() {
+        $stub = $this->getMockForAbstractClass("NodeCore", array("properties"));
+        $chain = DebugUtils::getChain($stub);
+        $this->assertNotEmpty($chain);
+        $this->assertArrayHasKey('properties', $chain);
+    }
 
 }
 

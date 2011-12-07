@@ -9,6 +9,7 @@ class QueryTest extends PHPUnit_Framework_TestCase {
         $chain->push("Node5");
 
         $query = new Query($chain);
+        print_r($query);
         
     }
 

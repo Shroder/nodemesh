@@ -91,7 +91,7 @@ class Cluster extends NodeCore implements ArrayAccess, Countable, IteratorAggreg
 
     protected function _fetch()
     {
-        $query  = new Query($this->_callChain);
+        $query  = new SQLBuilder($this->_callChain);
 
         try
         {

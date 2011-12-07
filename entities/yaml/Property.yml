@@ -1,0 +1,15 @@
+Property:
+  type: entity
+  table: properties
+  pk:
+    id:
+      type: integer
+  fields:
+    price:
+      type: integer
+    description:
+      type: string
+      length: 120
+    manyToOne:
+      area:
+        targetEntity: Tag

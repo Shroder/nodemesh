@@ -10,11 +10,11 @@ set_include_path('../classes:../includes');
 
 include_once 'interface.DatabaseAdapterInterface.php';      // odd name, pull it in immediately
 
-function __autoload($class)
+function autoloader($class)
 {
     require "class.$class.php";
 }
-
+spl_autoload_register("autoloader");
 
 // Explicitly set the environment (overrides URL-based environment naming).
 

@@ -83,12 +83,20 @@ abstract class NodeCore
         {
             if (MeshTools::IsNodeType($method))
             {
+                echo "\n--test: {$method}--\n";
                 $cluster = new Cluster($this->_callChain);
                 $cluster->_callChain->push($method, $params);
+                /*
+                print_r($cluster);
+                DebugUtils::getChain($cluster);
+                echo "\n---\n";
+                 * 
+                 */
                 return $cluster;
             }
             else
             {
+                echo $method;
                 $this->_fetch();        // @todo: disable caching when $params is set
             }
         }
@@ -324,6 +332,12 @@ abstract class NodeCore
         $cluster->_callChain->push($call, $plugins);
         
         return $cluster;
+    }
+
+    public function _debugInfo()
+    {
+        $debug['chain'] = $this->_callChain->_condensed();
+        return $debug;
     }
     
     abstract public function toArray();
